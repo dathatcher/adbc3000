@@ -1,0 +1,54 @@
+	public static long getZ( byte[] b, int offset, int size ) {
+
+		long zValue=0;
+
+  		int ln = size + offset;
+		long i = 1;
+		long sign = 1;
+
+		while ( ln > offset ) {
+			ln--;
+			if ( ln == size + offset - 1 && b[ln] > '9' ) {
+				sign = -1;
+				zValue += ((b[ln] & 0xFF) - '0' - 25) * i;
+				i *= 10;
+			} else if ( b[ln] < '0' || b[ln] > '9' ) ln = 0;   /* Terminate the loop. */
+			else {
+				zValue += ((b[ln] & 0xFF) - '0') * i;
+				i *= 10;
+			}
+		}
+
+		return zValue * sign;
+	}
+
+
+
+
+	/* Do not copy this following setZ helper routine, but just becarefull.  
+	   This routine is between the getZ and setZ.  Make sure you don't erase 
+	   it from the original version during a cut and paste.
+	   */
+	public static void setZ( byte[] b, long value ) {
+		setZ( b, 0, b.length, value );
+	}
+
+
+
+
+	public static void setZ( byte[] b, int offset, int size, long value ) {
+		long zValue = Math.abs(value);
+		int ln = offset + size - 1;
+
+		while ( zValue != 0 && ln >= offset ) {
+			b[ln] = (byte)(( zValue % 10 ) + '0');
+			if ( value < 0 && ln == offset + size - 1 ) b[ln] += 25;
+			zValue /= 10;
+			ln--;
+		}
+		while ( ln >= offset ) {
+			b[ln] = (byte) '0';
+			ln--;
+		}
+	}
+
