@@ -1,7 +1,7 @@
 package advnetsys.adbc;
 
-import java.nio.charset.*;
-//import java.io.CharConversionException;
+//import java.nio.charset.*;
+import java.io.CharConversionException;
 
 class ctb11 {
 
